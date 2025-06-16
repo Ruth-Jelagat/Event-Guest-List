@@ -1,45 +1,81 @@
-//allow html document to run before running javaScript
-document.addEventListener("DOMContentLoader", () => {
-  //DOM element reference key
-  const form = document.getElementById("guest-form");
-  const input = document.getElementById("guest-name");
-  const list = document.getElementById("guest-list");
+// Get references to important DOM elements
+const form = document.getElementById('guest-form');
+const guestList = document.getElementById('guest-list');
+const guestInput = document.getElementById('guest-name');
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = input.value.trim();
+let guestCount = 0;
+const MAX_GUESTS = 10;
 
-    if (!name) return;
+// Listen for form submission 
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
 
-    if (list.children.length >= 10) {
-      alert("Guest list limit reached(10 people)");
-      return;
-    }
+  // Get the guest name and remove extra whitespace
+  const guestName = guestInput.value.trim();
 
-    const li = document.createElement("li");
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = name;
-    const rsvpBtn = document.createElement("button");
-    rsvpBtn.textContent = "Not Attending";
-    rsvpBtn.className = "not-attending";
+  // Check if the input is empty
+  if (guestName === '') {
+    alert('Please enter a guest name.');
+    return;
+  }
 
-    rsvpBtn.addEventListener("Click", () => {
-      const attending = rsvpBtn.classList.toggle("attending");
-      rsvpBtn.classList.toggle("not attending", !attending);
-      rsvpBtn.textContent = attending ? "Attending" : "Not attending";
-    });
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove";
-    removeBtn,
-      addEventListener("click", () => {
-        list.removeChild(li);
-      });
+  // Check if the guest list has reached its limit
+  if (guestCount >= MAX_GUESTS) {
+    alert('Guest list is full! Remove someone before adding more.');
+    return;
+  }
 
-    const timestamp = document.createElement("div");
-    timestamp.className = "timestamp";
-    timestamp.textContent = "Added at: ${new Date().toLocaleTimeString()}";
-    li.append(nameSpan, rsvpBtn, removeBtn, timestamp);
-    list.appendChild(li);
-    input.value = "";
-  });
+  // If all checks pass, add the guest to the list
+  addGuest(guestName);
+  guestInput.value = ''; 
 });
+
+function addGuest(name) {
+  guestCount++; 
+
+  const li = document.createElement('li');
+  li.className = 'guest-item';
+
+  const nameSpan = document.createElement('span');
+  nameSpan.textContent = name;
+
+  const btnContainer = document.createElement('div');
+
+  // Create and configure the 'Remove' button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Remove';
+  deleteBtn.addEventListener('click', () => {
+    guestList.removeChild(li);
+    guestCount--;
+  });
+
+  // Create and configure the 'RSVP' toggle button
+  const rsvpBtn = document.createElement('button');
+  rsvpBtn.textContent = 'Attending';
+  let attending = true;
+  rsvpBtn.addEventListener('click', () => {
+    attending = !attending;
+    rsvpBtn.textContent = attending ? 'Attending' : 'Not Attending';
+    rsvpBtn.style.backgroundColor = attending ? '' : '#f99';
+  });
+
+  // Create and format the timestamp when the guest was added
+  const timestamp = document.createElement('span');
+  const now = new Date();
+  timestamp.textContent = now.toLocaleString();
+  timestamp.style.fontSize = '1em';
+  timestamp.style.marginLeft = '10px';
+
+  btnContainer.appendChild(deleteBtn);
+  btnContainer.appendChild(rsvpBtn);
+  btnContainer.appendChild(categorySelect);
+
+   // Assemble the list item: Name + Timestamp + Buttons
+  li.appendChild(nameSpan);
+  li.appendChild(timestamp);
+  li.appendChild(btnContainer);
+
+  // Add the fully assembled list item to the guest list in the DOM
+  guestList.appendChild(li);
+}
+      

@@ -1,4 +1,4 @@
-// Get references to important DOM elements
+// Get referrences to the guest form
 const form = document.getElementById('guest-form');
 const guestList = document.getElementById('guest-list');
 const guestInput = document.getElementById('guest-name');
@@ -6,11 +6,11 @@ const guestInput = document.getElementById('guest-name');
 let guestCount = 0;
 const MAX_GUESTS = 10;
 
-// Listen for form submission 
+// List for form submission
 form.addEventListener('submit', function(e) {
-  e.preventDefault();
+  e.preventDefault(); 
 
-  // Get the guest name and remove extra whitespace
+  // Get the guest name 
   const guestName = guestInput.value.trim();
 
   // Check if the input is empty
@@ -25,23 +25,25 @@ form.addEventListener('submit', function(e) {
     return;
   }
 
-  // If all checks pass, add the guest to the list
+  // If all checks pass,add the guest to the list
   addGuest(guestName);
   guestInput.value = ''; 
 });
-
+t
 function addGuest(name) {
-  guestCount++; 
+  guestCount++;
 
-  const li = document.createElement('li');
+  const li = document.createElement('li'); 
   li.className = 'guest-item';
 
+  // creates a span to show the guest name
   const nameSpan = document.createElement('span');
   nameSpan.textContent = name;
 
+  // creates a container for the buttons
   const btnContainer = document.createElement('div');
 
-  // Create and configure the 'Remove' button
+  //creates a delete button 
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = 'Remove';
   deleteBtn.addEventListener('click', () => {
@@ -49,28 +51,28 @@ function addGuest(name) {
     guestCount--;
   });
 
-  // Create and configure the 'RSVP' toggle button
+  // creates rsvp button
   const rsvpBtn = document.createElement('button');
   rsvpBtn.textContent = 'Attending';
   let attending = true;
-  rsvpBtn.addEventListener('click', () => {
+  rsvpBtn.addEventListener('click', () => {e
     attending = !attending;
     rsvpBtn.textContent = attending ? 'Attending' : 'Not Attending';
     rsvpBtn.style.backgroundColor = attending ? '' : '#f99';
   });
 
-  // Create and format the timestamp when the guest was added
+  //create and format the timestamp when the guest was added
   const timestamp = document.createElement('span');
   const now = new Date();
   timestamp.textContent = now.toLocaleString();
-  timestamp.style.fontSize = '1em';
+  timestamp.style.fontSize = '0.8em';
   timestamp.style.marginLeft = '10px';
 
   btnContainer.appendChild(deleteBtn);
   btnContainer.appendChild(rsvpBtn);
-  btnContainer.appendChild(categorySelect);
+  
 
-   // Assemble the list item: Name + Timestamp + Buttons
+  // Assembles the list item:Name + Timestamp +Buttons
   li.appendChild(nameSpan);
   li.appendChild(timestamp);
   li.appendChild(btnContainer);
@@ -78,4 +80,3 @@ function addGuest(name) {
   // Add the fully assembled list item to the guest list in the DOM
   guestList.appendChild(li);
 }
-      

@@ -2,7 +2,7 @@
 
 This is a small project I created to practice working with **vanilla JavaScript** — no libraries, no frameworks — just pure HTML, CSS, and JS. The idea was to build a simple yet functional **Event Guest List Manager** where I could explore DOM manipulation, event handling, and conditional rendering in the browser.
 * The guest list is limited to **10 guests by default**, but you can easily change this limit in the JavaScript file.
-* I built this project using only **plain HTML, CSS, and JavaScript** — no extra libraries or tools.
+* I built this project using only **plain HTML, CSS, and JavaScript**.
 * I tested everything manually by interacting with the page in the browser.
 
 ## Project Structure
